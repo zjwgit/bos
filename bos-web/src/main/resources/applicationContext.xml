@@ -37,11 +37,11 @@
 			</props>
 		</property>
 		<!-- 注入hibernate的映射文件 -->
-		<!--<property name="mappingLocations">
+		<property name="mappingLocations">
 			<list>
 				<value>classpath:cn/zjw/bos/domain/*.xml</value>
 			</list>
-		</property>-->
+		</property>
 	</bean>
 	
 	<!-- 配置事务管理器 -->
@@ -50,7 +50,7 @@
 	</bean>
 	
 	<!-- 组件扫描 -->
-	<!--<context:component-scan base-package="cn.zjw.bos"/>-->
+	<context:component-scan base-package="cn.zjw.bos"/>
 	
 	<!-- 支持spring注解 -->
 	<context:annotation-config/>
