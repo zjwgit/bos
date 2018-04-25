@@ -5,6 +5,7 @@
   -webkit-border-radius: 5px 5px 5px 5px;
   border-radius: 5px 5px 5px 5px;
   overflow: hidden;
+  position: relative;
 }
 .progressbar-text {
   text-align: center;
@@ -19,12 +20,14 @@
   border-radius: 5px 0 0 5px;
 }
 .progressbar {
-  border-color: #000;
+  border-color: #AED0EA;
 }
 .progressbar-text {
-  color: #fff;
+  color: #000000;
+  font-size: 14px;
 }
+.progressbar-value,
 .progressbar-value .progressbar-text {
-  background-color: #0052A3;
-  color: #fff;
+  background-color: #3baae3;
+  color: #ffffff;
 }

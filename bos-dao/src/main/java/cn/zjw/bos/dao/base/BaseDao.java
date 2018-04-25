@@ -14,4 +14,6 @@ public interface BaseDao<T> {
 	public T selectById(Serializable id);
 	//差所有
 	public List<T> findAll();
+	//更新通用
+	public void executeUpdate(String queryName,Object...objects);
 }

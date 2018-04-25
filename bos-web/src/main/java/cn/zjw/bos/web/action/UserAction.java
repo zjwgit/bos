@@ -2,7 +2,9 @@ package cn.zjw.bos.web.action;
 
 import cn.zjw.bos.domain.User;
 import cn.zjw.bos.service.UserService;
+import cn.zjw.bos.utils.LoginUtils;
 import cn.zjw.bos.web.action.base.BaseAction;
+import jdk.internal.org.objectweb.asm.tree.TryCatchBlockNode;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts2.ServletActionContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +42,21 @@ public class UserAction extends BaseAction<User>{
 		}
 			return result;
 
+	}
+
+	public String editPassword() throws Exception {
+		String f="1";
+		User user = LoginUtils.getLoginUser();
+		String password = model.getPassword();
+		try {
+		userService.editPassword("user.editpassword",password,user.getId());
+		}catch (Exception e){
+			f="0";
+			e.printStackTrace();
+		}
+		ServletActionContext.getResponse().setContentType("text/html;charset=utf-8");
+		ServletActionContext.getResponse().getWriter().print(f);
+		return NONE;
 	}
 
 	public String logout() throws Exception {

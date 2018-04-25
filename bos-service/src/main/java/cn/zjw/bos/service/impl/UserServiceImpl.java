@@ -18,4 +18,10 @@ public class UserServiceImpl implements UserService {
 
 		return userDao.selectByUsernameAndPassword(model.getUsername(), MD5Utils.md5(model.getPassword()));
 	}
+
+	@Override
+	public void editPassword(String editPassword, String password, String id) {
+		String p = MD5Utils.md5(password);
+		userDao.executeUpdate(editPassword,p,id);
+	}
 }

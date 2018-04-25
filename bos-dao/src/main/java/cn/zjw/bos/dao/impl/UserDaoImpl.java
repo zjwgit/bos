@@ -18,4 +18,6 @@ public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao {
 		}
 		return null ;
 	}
+
+
 }

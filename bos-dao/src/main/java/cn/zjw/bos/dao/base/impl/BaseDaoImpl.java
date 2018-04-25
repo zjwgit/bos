@@ -1,6 +1,8 @@
 package cn.zjw.bos.dao.base.impl;
 
 import cn.zjw.bos.dao.base.BaseDao;
+import org.hibernate.Query;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
 import org.springframework.stereotype.Repository;
@@ -47,5 +49,16 @@ public class BaseDaoImpl<T> extends HibernateDaoSupport implements BaseDao<T> {
 	public List<T> findAll() {
 		String hql ="From "+entityClass.getSimpleName();
     	return (List<T>) getHibernateTemplate().find(hql);
+	}
+
+	@Override
+	public void executeUpdate(String queryName, Object... objects) {
+		Session session = this.getSessionFactory().getCurrentSession();
+		Query query = session.getNamedQuery(queryName);
+		int time = 0;
+		for (Object o : objects) {
+			query.setParameter(time++,o);
+		}
+		query.executeUpdate();
 	}
 }

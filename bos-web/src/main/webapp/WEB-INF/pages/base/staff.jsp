@@ -165,23 +165,39 @@
 		</div>
 		
 		<div region="center" style="overflow:auto;padding:5px;" border="false">
-			<form>
+			<form id="addStaffForm" action="StaffAction_save" method="post">
 				<table class="table-edit" width="80%" align="center">
 					<tr class="title">
 						<td colspan="2">收派员信息</td>
 					</tr>
 					<!-- TODO 这里完善收派员添加 table -->
 					<tr>
-						<td>取派员编号</td>
-						<td><input type="text" name="id" class="easyui-validatebox" required="true"/></td>
-					</tr>
-					<tr>
 						<td>姓名</td>
 						<td><input type="text" name="name" class="easyui-validatebox" required="true"/></td>
 					</tr>
 					<tr>
 						<td>手机</td>
-						<td><input type="text" name="telephone" class="easyui-validatebox" required="true"/></td>
+						<td>
+							<script type="text/javascript">
+								$("#save").click(function () {
+									var result = $("#addStaffForm").form("validate");
+									if(result){
+										$("#addStaffForm").submit();
+									}
+
+                                });
+
+                                $.extend($.fn.validatebox.defaults.rules, {
+                                    telephone: {
+                                        validator: function(value, param){
+                                           	var reg =/^1[3|5|7|8|9][0-9]{9}$/;
+                                            return reg.test(value);
+                                        },
+                                        message: '请输入正确的手机号'
+                                    }
+                                });
+							</script>
+							<input type="text" name="telephone" class="easyui-validatebox" required="true" data-options="validType:'telephone'"/></td>
 					</tr>
 					<tr>
 						<td>单位</td>

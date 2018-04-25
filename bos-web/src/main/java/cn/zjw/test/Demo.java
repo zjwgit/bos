@@ -2,7 +2,7 @@ package cn.zjw.test;
 
 import net.sf.ehcache.search.aggregator.Sum;
 
-import java.io.File;
+import java.io.*;
 
 public class Demo {
 	public static void main(String[] args) {
@@ -31,5 +31,15 @@ public class Demo {
 		}
 		System.out.println(start+sum);
 		return start+sum1((start+1),(start+sum));
+	}
+	public void t(){
+		try {
+			BufferedReader reader =
+					new BufferedReader(new InputStreamReader
+							(new FileInputStream("filePath"),"UTF-8"));
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
