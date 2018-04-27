@@ -1,9 +1,13 @@
 package cn.zjw.bos.dao.base.impl;
 
 import cn.zjw.bos.dao.base.BaseDao;
+import cn.zjw.bos.domain.Staff;
+import cn.zjw.bos.utils.PageBean;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Projections;
 import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
 import org.springframework.stereotype.Repository;
 
@@ -60,5 +64,23 @@ public class BaseDaoImpl<T> extends HibernateDaoSupport implements BaseDao<T> {
 			query.setParameter(time++,o);
 		}
 		query.executeUpdate();
+	}
+
+	@Override
+	public void getPageBean(PageBean pageBean) {
+		Integer currentPage = pageBean.getCurrentPage();
+		Integer pageSize = pageBean.getPageSize();
+		DetachedCriteria detachedCriteria = pageBean.getDetachedCriteria();
+		//查询总计录数
+		detachedCriteria.setProjection(Projections.rowCount());
+		List<Long> list = (List<Long>) getHibernateTemplate().findByCriteria(detachedCriteria);
+		Long total = list.get(0);
+		pageBean.setTotal(total.intValue());
+		detachedCriteria.setProjection(null);
+		//查询rows
+		int first = (currentPage-1)*pageSize;
+		List<Staff> objects = (List<Staff>) getHibernateTemplate().findByCriteria(detachedCriteria, first, pageSize);
+		pageBean.setRows(objects);
+
 	}
 }
