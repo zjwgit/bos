@@ -20,5 +20,6 @@ public interface BaseDao<T> {
 	public void executeUpdate(String queryName,Object...objects);
 	//获取分页信息
 	public void getPageBean(PageBean pageBean);
+	public void saveOrUpdate(T entity);
 
 }
