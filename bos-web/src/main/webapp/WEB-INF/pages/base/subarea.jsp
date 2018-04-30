@@ -44,7 +44,7 @@
 	}
 	
 	function doExport(){
-		alert("导出");
+		location.href="subareaAction_exportXls";
 	}
 	
 	function doImport(){
@@ -160,7 +160,7 @@
 			pageList: [30,50,100],
 			pagination : true,
 			toolbar : toolbar,
-			url : "json/subarea.json",
+			url : "subareaAction_pageQuery",
 			idField : 'id',
 			columns : columns,
 			onDblClickRow : doDblClickRow
@@ -190,8 +190,26 @@
 		$("#btn").click(function(){
 			alert("执行查询...");
 		});
-		
-	});
+        //定义一个工具方法，用于将指定的form表单中所有的输入项转为json数据{key:value,key:value}
+        $.fn.serializeJson=function(){
+            var serializeObj={};
+            var array=this.serializeArray();
+            $(array).each(function(){
+                if(serializeObj[this.name]){
+                    if($.isArray(serializeObj[this.name])){
+                        serializeObj[this.name].push(this.value);
+                    }else{
+                        serializeObj[this.name]=[serializeObj[this.name],this.value];
+                    }
+                }else{
+                    serializeObj[this.name]=this.value;
+                }
+            });
+            return serializeObj;
+        };
+
+
+    });
 
 	function doDblClickRow(){
 		alert("双击表格数据...");
@@ -268,7 +286,7 @@
 	<!-- 查询分区 -->
 	<div class="easyui-window" title="查询分区窗口" id="searchWindow" collapsible="false" minimizable="false" maximizable="false" style="top:20px;left:200px">
 		<div style="overflow:auto;padding:5px;" border="false">
-			<form>
+			<form id="searchForm">
 				<table class="table-edit" width="80%" align="center">
 					<tr class="title">
 						<td colspan="2">查询条件</td>
@@ -290,7 +308,18 @@
 						<td><input type="text" name="addresskey"/></td>
 					</tr>
 					<tr>
-						<td colspan="2"><a id="btn" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'">查询</a> </td>
+						<td colspan="2"><a id="btn" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'">查询</a>
+							<script type="text/javascript">
+								$(function () {
+									$("#btn").click(function () {
+										var query = $("#searchForm").serializeJson();
+                                        console.info(query);
+                                        $("#grid").datagrid("load",query);
+                                        $("#searchWindow").window("close");
+                                    });
+                                });
+							</script>
+						</td>
 					</tr>
 				</table>
 			</form>

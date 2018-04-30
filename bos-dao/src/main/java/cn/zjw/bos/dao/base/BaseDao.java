@@ -1,6 +1,7 @@
 package cn.zjw.bos.dao.base;
 
 import cn.zjw.bos.utils.PageBean;
+import org.hibernate.criterion.DetachedCriteria;
 
 import java.io.Serializable;
 import java.util.List;
@@ -21,5 +22,6 @@ public interface BaseDao<T> {
 	//获取分页信息
 	public void getPageBean(PageBean pageBean);
 	public void saveOrUpdate(T entity);
+	public List<T> findByCriteria(DetachedCriteria detachedCriteria);
 
 }

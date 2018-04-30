@@ -5,9 +5,13 @@ import cn.zjw.bos.domain.Staff;
 import cn.zjw.bos.service.StaffService;
 import cn.zjw.bos.utils.PageBean;
 import org.apache.commons.lang.StringUtils;
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @Transactional
@@ -42,5 +46,12 @@ public class StaffServiceImpl implements StaffService {
 	@Override
 	public void update(Staff staff) {
 		staffDao.update(staff);
+	}
+
+	@Override
+	public List<Staff> findNoDelete() {
+		DetachedCriteria criteria = DetachedCriteria.forClass(Staff.class);
+		criteria.add(Restrictions.eq("deltag","0"));
+		return  staffDao.findByCriteria(criteria);
 	}
 }

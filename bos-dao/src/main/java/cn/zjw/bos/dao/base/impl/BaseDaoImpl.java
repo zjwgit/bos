@@ -77,6 +77,7 @@ public class BaseDaoImpl<T> extends HibernateDaoSupport implements BaseDao<T> {
 		Long total = list.get(0);
 		pageBean.setTotal(total.intValue());
 		detachedCriteria.setProjection(null);
+		detachedCriteria.setResultTransformer(DetachedCriteria.ROOT_ENTITY);
 		//查询rows
 		int first = (currentPage-1)*pageSize;
 		List<Staff> objects = (List<Staff>) getHibernateTemplate().findByCriteria(detachedCriteria, first, pageSize);
@@ -87,5 +88,10 @@ public class BaseDaoImpl<T> extends HibernateDaoSupport implements BaseDao<T> {
 	@Override
 	public void saveOrUpdate(T entity) {
 		getHibernateTemplate().saveOrUpdate(entity);
+	}
+
+	@Override
+	public List<T> findByCriteria(DetachedCriteria detachedCriteria) {
+		return (List<T>) getHibernateTemplate().findByCriteria(detachedCriteria);
 	}
 }

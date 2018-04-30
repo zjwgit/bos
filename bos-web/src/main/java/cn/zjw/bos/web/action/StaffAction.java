@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
+import java.util.List;
+
 @Controller
 @Scope("prototype")
 public class StaffAction extends BaseAction<Staff> {
@@ -41,7 +43,7 @@ public class StaffAction extends BaseAction<Staff> {
 		service.getPageBean(pageBean);
 
 		JsonConfig config = new JsonConfig();
-		config.setExcludes(new String[]{"currentPage","pageSize","detachedCriteria"});
+		config.setExcludes(new String[]{"currentPage","pageSize","detachedCriteria","decidedzones"});
 		String json = JSONObject.fromObject(pageBean, config).toString();
 		ServletActionContext.getResponse().setContentType("text/json;charset=utf-8");
 		ServletActionContext.getResponse().getWriter().write(json);
@@ -61,6 +63,11 @@ public class StaffAction extends BaseAction<Staff> {
 		staff.setTelephone(model.getTelephone());
 		service.update(staff);
 		return LIST;
+	}
+	public String listajax(){
+		List<Staff> list = service.findNoDelete();
+		java2Json(list,new String[]{"decidedzones"});
+		return NONE;
 	}
 
 	public void setPage(Integer page) {
